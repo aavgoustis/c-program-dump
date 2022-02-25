@@ -27,16 +27,22 @@ int help(void) {
     return 0;
 }
 
-int main(void) {
+int main(void)
+{
     printf("** TODO List **");
-    for (int i = 0; i < MAX; i++) {
+    for (int i = 0; i < MAX; i++)
+    {
         printf("todolist> ");
-        if (fgets(command, 10, stdin)) {
+        if (fgets(command, 10, stdin))
+        {
             command[strcspn(command, "\n")] = 0; // replace \n with 0
 
+            // exit
             if (strcmp(command, "q") == 0) {
                 return 0;
             }
+
+            // new task
             else if (strcmp(command, "n") == 0) {
 
                 // get the task id
@@ -57,17 +63,35 @@ int main(void) {
                 // assign this id to the todo_list:
                 todo_list[this_id].id = this_id;
 
+                // get the task name
                 do
                 {
                     printf("new_name> ");
                     if (!fgets (new_name, 1024, stdin))
                     {
                         //reading input failed, give up:
-                        return 1;
+                        printf("Enter a tak name!\n");
                     }
-                } while (strcmp(new_name, ""));
+                } while (strcmp(new_name, "") == 0); // repeat until we get a correct name
 
-                
+                printf("Name of new task is: %s", new_name);
+                // assign new name
+                strcpy(todo_list[this_id].name, new_name);
+
+                // get the task description
+                do
+                {
+                    printf("new_desc> ");
+                    if(!fgets (new_desc, 1024, stdin))
+                    {
+                        //reading input failed
+                        printf("Enter a description!\n");
+                        continue;
+                } while (strcmp(new_desc, "") == 0); //repeat until we get a correct desc
+
+                printf("Description added successfully!");
+                // assign new description
+                strcpy(todo_list[this_id].desc, new_desc);
             }
         }
     }
